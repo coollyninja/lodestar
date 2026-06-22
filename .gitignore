@@ -1,0 +1,3 @@
+# Lodestar is a template kit — nothing here should be ignored except local cruft.
+.DS_Store
+*.log
