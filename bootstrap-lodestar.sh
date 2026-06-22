@@ -129,6 +129,6 @@ paste it as that session's `/goal`, then start its `/loop`. See the RUNBOOK.
 EOF
 
 say "done. Next:"
-say "  1) Fill lodestar/prompts/*-goal-prompt.md → $GOALS/<agent>-goal-prompt.md (per agent)"
+say "  1) Fill projects/lodestar/prompts/ (or lodestar/prompts/ if running standalone) — *-goal-prompt.md → $GOALS/<agent>-goal-prompt.md (per agent)"
 say "  2) git add $OPS lodestar && git commit -m 'chore(stable): bootstrap coordination bus' && git push"
-say "  3) Spin up the orchestrator + workers per lodestar/RUNBOOK.md"
+say "  3) Spin up per (projects/)lodestar/RUNBOOK.md"
