@@ -138,14 +138,20 @@ See `lodestar/GIT-SYNC.md` for the full protocol. The essentials:
 
 ```
 READY → CLAIMED → IN_PROGRESS → DEPLOYED → DONE
-                                   ↘ BLOCKED (with blocked_by)
-                                   ↘ DEFERRED (with a reopen trigger)
+   ↑                               ↘ BLOCKED (named blocked_by / external-event trigger)
+(low-pri P2 = not-urgent,           ↘ DEFERRED (operator park ONLY — rare)
+ re-ordered not hidden)
 ```
 
 - A worker **claims** a READY signal (sets owner + status), works it, ships,
   **verifies live**, then flips DONE. "Merged" ≠ "deployed" ≠ "verified" —
   only a real-path check closes a signal (see `feedback_no_seed_data`).
-- **BLOCKED** must name `blocked_by`. **DEFERRED** must name a reopen trigger.
+- **BLOCKED** names a `blocked_by` signal OR a hard external-event trigger
+  (engineering done, waiting on a real event that can't be faked).
+- **Don't park work in DEFERRED because it's lower priority** — that hides it
+  from the owning loop (which sweeps READY). Use a **low-priority READY** and
+  re-order. DEFERRED is reserved for an explicit *operator* park.
+  (`feedback_no_defer_only_reprioritize`)
 - The orchestrator audits: a signal claiming DONE whose deploy actually failed
   gets re-opened. Trust the live system, not the commit message.
 

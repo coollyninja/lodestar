@@ -50,11 +50,22 @@ operator-step considerations.>
 - **IN_PROGRESS** — code in flight (PR open / CI running).
 - **DEPLOYED** — merged + deployed, awaiting the live acceptance check.
 - **DONE** — acceptance test passed LIVE. The only terminal "success" state.
-- **BLOCKED** — must name `blocked_by`. Reconsider every cycle.
-- **DEFERRED** — parked with an explicit REOPEN TRIGGER (a named external event,
-  not "later"). The orchestrator never closes a blocker whose resolution is a
-  deferred signal until that signal is DONE.
+- **BLOCKED** — can't proceed until a named `blocked_by` (another signal) or a
+  hard external-event gate clears. Must name the trigger. Use this for "engineering
+  done, waiting on a real external event that can't be faked" (e.g. validates only
+  on the first real user's first event). Reconsider every cycle.
+- **DEFERRED** — **rare.** Only for an explicit *operator* decision to park ("skip
+  this for now, my call") or a signal superseded-by-an-event. **NOT for
+  priority-parking** — see the rule below.
 - **SUPERSEDED** — replaced by another signal (name it).
+
+> **Priority is for ordering; status is for reality.** Do NOT use DEFERRED to
+> "park for later because something else is hotter." That hides the work from
+> signal-driven loops (a worker sweeps READY signals; a DEFERRED one falls off
+> its radar — a drained lane then idles on a backlog it can't see). Instead:
+> a non-urgent signal is a **low-priority READY** (P2), re-ordered behind the hot
+> work but still visible. A hard external gate is **BLOCKED with a named trigger**.
+> The only legitimate DEFERRED is an explicit operator park. (`feedback_no_defer_only_reprioritize`)
 
 ## Anti-patterns to avoid
 
@@ -63,6 +74,8 @@ operator-step considerations.>
   the live state before trusting it (`feedback_partial_fix_audit`).
 - A cross-team flow filed as ONE lane's signal with the other lanes as footnotes
   — file a signal per touched lane.
+- **Parking work in DEFERRED because it's not the top priority.** Use low-priority
+  READY (re-order, don't hide). DEFERRED hides work from the owning loop.
 - A time-gated / "soak N days" acceptance criterion — gate on a real event
   (real user/customer activity), never elapsed time.
 ```
