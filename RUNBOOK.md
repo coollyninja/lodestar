@@ -180,6 +180,7 @@ When surfacing one, give the **exact command/click**, not a vague ask.
 | Two agents edited the same file | `git pull --rebase`, re-apply. Bus files are designed to merge. |
 | A worker's lane is stuck | Orchestrator surfaces it (with the exact fix) after N idle cycles. |
 | Whole fleet idle | Check each agent's loop is actually firing; restart loops. The bus state is intact regardless. |
+| Lane *looks* stalled (silent N cycles) | **Don't assume a dead loop from commit-silence** — build-/test-/walk-heavy lanes work long stretches uncommitted. Confirm a POSITIVE dead-loop signal (worker reports idle, OR zero activity + empty working tree + an unanswered SCRATCHPAD ask) before surfacing an operator restart. A false stall-flag wastes an operator action and demoralizes a working agent. |
 
 ---
 

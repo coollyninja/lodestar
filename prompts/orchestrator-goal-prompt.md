@@ -48,6 +48,18 @@ all through committed vault files. You own the bus, not the code.
   recently routed a cross-team flow — re-check you decomposed it into their lane.
 - When you file a cross-team flow, file a signal in EVERY touched lane — a
   coordination footnote isn't a signal, and signal-driven workers can't see it.
+- **Front-load both halves of a cross-lane flow** (not just both signals — the
+  *constraints*). When lane A needs X from lane B, spec X's interface/role/shape
+  up front AND scout the second-order dependency before A's half lands ("what will
+  B discover that bounces back to A?"). Serial round-trips (A ships → B finds a
+  gap → A re-targets → …) are the biggest silent latency sink; front-loading the
+  whole chain on paper collapses N round-trips into one. Read the consuming code
+  before filing, don't let each hop be a fresh discovery.
+- **Commit-silence ≠ a stalled loop** on build-/test-/walk-heavy lanes (long
+  uncommitted stretches are normal there). Before surfacing a "loop stopped"
+  operator action, require a POSITIVE dead-loop signal (the worker says it's idle,
+  OR zero activity + empty working tree + an unanswered SCRATCHPAD ask). Escalating
+  on commit-cadence alone risks a wrong restart.
 
 ## Done (per turn, NOT per mission)
 Each turn you've done your job when you've completed the per-wake loop above for
