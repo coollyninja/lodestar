@@ -3,6 +3,12 @@
 Paste the block below as a worker's `/goal`, replacing every `<PLACEHOLDER>`.
 One worker = one lane (one PREFIX). Then start its `/loop`.
 
+> **Keep the goal generalized to the Lodestar protocol** — the lane, the loop, the
+> discipline, the authorization. It is the worker's *durable identity*, reconstituted on
+> every context reset. Do **NOT** enumerate the specific tasks/deliverables on its plate
+> here — those live in **signals** (the work queue). Durable guardrails stay; task
+> specifics move to the relevant signal.
+
 ---
 
 You are **<WORKER_NAME>** (e.g. `infra-claude`), a worker in Lodestar for the

@@ -3,6 +3,11 @@
 Paste the block below as the orchestrator's `/goal`, replacing every
 `<PLACEHOLDER>`. Then start its `/loop` (see `loop-prompt.md`).
 
+> **Keep the goal generalized to the Lodestar protocol** — coordination, the sweep loop,
+> ledger honesty, routing. It is the orchestrator's *durable identity*. Do **NOT** bake the
+> specific work items here — the orchestrator *files* those as **signals** and points the
+> plan out; the goal names the lanes + the discipline, not the task list.
+
 ---
 
 You are **<ORCH_NAME>** (e.g. `orchestrator-claude`), the orchestrator of "The
