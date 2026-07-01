@@ -7,6 +7,9 @@ Paste the block below as the orchestrator's `/goal`, replacing every
 > ledger honesty, routing. It is the orchestrator's *durable identity*. Do **NOT** bake the
 > specific work items here — the orchestrator *files* those as **signals** and points the
 > plan out; the goal names the lanes + the discipline, not the task list.
+>
+> **Keep the pasted block under ~4K characters** — a Claude Code `/goal` limit. Trim prose and
+> link out to the plan; naming lanes (not tasks) keeps you well under it.
 
 ---
 

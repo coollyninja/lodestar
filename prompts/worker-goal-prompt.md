@@ -8,6 +8,9 @@ One worker = one lane (one PREFIX). Then start its `/loop`.
 > every context reset. Do **NOT** enumerate the specific tasks/deliverables on its plate
 > here — those live in **signals** (the work queue). Durable guardrails stay; task
 > specifics move to the relevant signal.
+>
+> **Keep the pasted block under ~4K characters** — a Claude Code `/goal` limit. Trim prose,
+> link out to the plan/specs, don't inline long tables; generalizing (above) keeps you under it.
 
 ---
 
